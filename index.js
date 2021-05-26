@@ -9,8 +9,8 @@ import populateDatabase from './PopulateDatabase.js';
 const { printSchema } = graphqlM;
 
 // We put objects in our database
-const SUPABASE_URL = 'https://mwtpwysqoqhrllihpyrw.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYyMjA0Nzc3NywiZXhwIjoxOTM3NjIzNzc3fQ.9tcNsno861zIqasKLA27llyND2AQ8_5q7kG4WobHo6s';
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
 const { createClient } = supabaseJS;
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 await populateDatabase(supabase);
