@@ -1,0 +1,44 @@
+Arguments: 
+  /usr/local/bin/node /usr/local/bin/yarn install
+
+PATH: 
+  /Users/alpheonix/Library/Android/sdk/platform-tools:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:~/.dotnet/tools:/Library/Apple/usr/bin:/Users/alpheonix/Library/Android/sdk/platform-tools
+
+Yarn version: 
+  1.22.10
+
+Node version: 
+  14.17.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: getaddrinfo ENOTFOUND registry.yarnpkg.com
+      at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:67:26)
+
+npm manifest: 
+  {
+    "name": "graphql-tp-1",
+    "version": "1.0.0",
+    "main": "index.js",
+    "type": "module",
+    "license": "MIT",
+    "scripts": {
+      "dev": "dotenv-load node index.js"
+    },
+    "dependencies": {
+      "@supabase/supabase-js": "^1.11.13",
+      "dotenv-load": "^2.0.0",
+      "express": "^4.17.1",
+      "express-graphql": "^0.12.0",
+      "express-session": "^1.17.1",
+      "graphql": "^15.5.0"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
