@@ -4,7 +4,7 @@ import bookType from './Book.js'
 const { GraphQLObjectType, GraphQLList, GraphQLBoolean, GraphQLFloat, GraphQLInt, GraphQLID, GraphQLString } = graphql;
 
 export default new GraphQLObjectType({
-  name: 'Wizard',
+  name: 'Character',
   fields: {
     id: {
       type: GraphQLID,

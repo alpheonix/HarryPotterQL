@@ -6779,7 +6779,7 @@
     gender: "Male",
     hair_color: "Dark",
     eye_color: null,
-    wand: "Unknown length, wood, and core (formerly)",
+    wand: 5,
     patronus: null,
     house: null,
     associated_groups: [
@@ -7012,7 +7012,7 @@
     gender: "Male",
     hair_color: "Jet-black",
     eye_color: "Bottle green",
-    wand: "11\", Holly, phoenix feather",
+    wand: 1,
     patronus: "Stag",
     house: "Gryffindor",
     associated_groups: [
@@ -9482,7 +9482,7 @@
     gender: "Male",
     hair_color: "Red",
     eye_color: "Blue",
-    wand: "12\", Ash, unicorn tail hair",
+    wand: 3,
     patronus: "Jack Russell terrier",
     house: "Gryffindor",
     associated_groups: [
@@ -11795,7 +11795,7 @@
     gender: "Female",
     hair_color: "Brown",
     eye_color: "Brown",
-    wand: "10¾\", vine wood, dragon heartstring",
+    wand: 2,
     patronus: "Otter",
     house: "Gryffindor",
     associated_groups: [
@@ -12539,7 +12539,7 @@
     gender: "Female",
     hair_color: "Black",
     eye_color: null,
-    wand: "12¾\", Walnut, dragon heartstring",
+    wand: 4,
     patronus: "None",
     house: "House of Black",
     associated_groups: [],
@@ -15460,7 +15460,6 @@
     ]
     }
     ]
-
 
   const bookCovers = [
       {
@@ -21274,13 +21273,155 @@
     }
     ]
   
-    export default async (supabase) => {
+  const wands = [
+    {
+      id: 1,
+      name: "wand of Harry Potter",
+      description: "This wand belongs to Harry Potter",
+      owner: 326,
+      wood: "Blackthorn",
+      heart: "Wisp of troll moustache",
+      width: 22.5,
+      hardness: "Fuel"
+    },
+    {
+      id: 2,
+      name: "wand of Hermione Granger",
+      description: "This wand belongs to Hermione Granger",
+      owner: 587,
+      wood: "Vine",
+      heart: "Dragon Ventricle",
+      width: 27.3,
+      hardness: "Flexible"
+    },
+    {
+      id: 3,
+      name: "wand of Ron Weasley",
+      description: "This wand belongs to Ron Weasley",
+      owner: 476,
+      wood: "Willow",
+      heart: "Unicorn hair",
+      width: 35,
+      hardness: "Rather flexible"
+    },
+    {
+      id: 4,
+      name: "wand of Bellatrix Lestrange",
+      description: "This wand belongs to Bellatrix Lestrange",
+      owner: 622,
+      wood: "Walnut",
+      heart: "Dragon Ventricle",
+      width: 31.8,
+      hardness: "Rigid"
+    },
+    {
+      id: 5,
+      name: "the elder wand",
+      description: "This wand belongs to Antioch Peverel",
+      owner: 315,
+      wood: "Elder",
+      heart: "Sombral tail hair",
+      width: 31.5,
+      hardness: "Very flexible"
+    }
+  ]
+
+  const broom = [
+    {
+      id: 1,
+      name: "nimbus 2000",
+      description: "The Nimbus 2000 is a racing broom, the fastest of the brooms when it was released in 1991. The following year, the Nimbus 2001 was released and dethroned its brother.",
+      wood: "Blackthorn",
+      speed: 200
+    },
+    {
+      id: 2,
+      name: "Firebolt",
+      description: "The Firebolt was made in great secrecy by Randolf Spudmore. It contains several pieces of metal forged by the Goblins (such as a non-slip footrest or a brush holder).",
+      wood: "Ebony",
+      speed: 240
+    },
+    {
+      id: 3,
+      name: "Suprem Firebolt",
+      description: "The Supreme Firebolt is a racing broom. It is used by the Bulgarian Quidditch team in the 2014 Quidditch World Cup.",
+      wood: "Ebony",
+      speed: 340
+    },
+    {
+      id: 4,
+      name: "Bluebottle",
+      description: "The Bluebottle is a safe, stable family broom with an anti-theft siren.",
+      wood: "Oak",
+      speed: 70
+    },
+    {
+      id: 5,
+      name: "OakSpear79",
+      description: "The OakSpear79 is named after the year of its creation, 1879. It is a broom designed for endurance flights and resistance to strong winds.",
+      wood: "Oak",
+      speed: 90
+    }
+  ]
+  
+  const portKey = [
+    {
+      id: 1,
+      name: "portkey8427",
+      description: "This old sock makes the trip from london to paris in a flash! ",
+      departure: "51.5072, -0.1275 51",
+      arrival: "48.866667, 2.333333",
+    },
+    {
+      id: 2,
+      name: "portkey5736",
+      description: "this cute stuffed animal makes the trip from NY to Mexico in 2 minutes",
+      departure: "40.6643, -73.9385",
+      arrival: "23.634501,     -102.552784",
+    },
+    {
+      id: 3,
+      name: "portkey1123",
+      description: "With this bottle, it's guaranteed Belgium! ",
+      departure: "51.5072, -0.1275 51",
+      arrival: "35.6894, 139.692 35",
+    },
+    {
+      id: 4,
+      name: "portkey0001",
+      description: "This is the way to the hell",
+      departure: "59.911491, 10.757933",
+      arrival: "66.66666, 66.66666",
+    }
+  ]
+  
+  const magicObjects = [
+  { id: 1, WandID: 1, BroomID: null, PortKeyID: null },
+  { id: 2, WandID: 2, BroomID: null, PortKeyID: null },
+  { id: 3, WandID: 3, BroomID: null, PortKeyID: null },
+  { id: 4, WandID: 4, BroomID: null, PortKeyID: null },
+  { id: 5, WandID: 5, BroomID: null, PortKeyID: null },
+  { id: 6, WandID: null, BroomID: 1, PortKeyID: null },
+  { id: 7, WandID: null, BroomID: 2, PortKeyID: null },
+  { id: 8, WandID: null, BroomID: 3, PortKeyID: null },
+  { id: 9, WandID: null, BroomID: 4, PortKeyID: null },
+  { id: 10, WandID: null, BroomID: 5, PortKeyID: null },
+  { id: 11, WandID: null, BroomID: null, PortKeyID: 1 },
+  { id: 12, WandID: null, BroomID: null, PortKeyID: 2 },
+  { id: 13, WandID: null, BroomID: null, PortKeyID: 3 },
+  { id: 14, WandID: null, BroomID: null, PortKeyID: 4 },
+  
+]
+
+  export default async (supabase) => {
     await supabase.from('Characters').upsert(characters);
     await supabase.from('BookCovers').upsert(bookCovers);
     await supabase.from('Books').upsert(books);
     await supabase.from('Potions').upsert(potions);
     await supabase.from('Spells').upsert(spells);
-
+    await supabase.from('Wands').upsert(wands);
+    await supabase.from('Brooms').upsert(broom);
+    await supabase.from('PortKeys').upsert(portKey);
+    await supabase.from('MagicObjects').upsert(magicObjects);
  
-  console.log('Database populated !\n');
 };
