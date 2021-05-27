@@ -21,13 +21,58 @@ const queryType = new GraphQLObjectType({
             args: {
               orderBy: {
                 type: CharacterOrder,
-                defaultValue: { field: 'id', direction: 'DESC' },
+                defaultValue: { field: 'name', direction: 'ASC' },
               },
+              gender:{
+                type: GraphQLString,
+               
+              },
+              species:{
+                type: GraphQLString,
+                
+              },
+              id:{
+                type: GraphQLID,
+                
+              }
             },
-            resolve: async (_, { orderBy }, { supabase }) => {
+            resolve: async (_, { orderBy,gender,species,id }, { supabase }) => {
               console.log('Resolver called: Query.character');
               // Our object fetched from our database
               const query = supabase.from('Characters')
+              .select('*')
+              .order(orderBy.field, { ascending: orderBy.direction === 'ASC' });
+              console.log("test",gender);
+
+              if(gender){
+                
+                query.filter('gender','eq',gender)
+              }
+              if (species) {
+                query.filter('species','eq',species)
+              }
+              if (id) {
+                query.filter('id','eq',id)
+              }
+              const { data, error } = await query;
+              if (error) {
+                console.error('tet',error);
+              }
+              return data;
+            },
+          },
+          Book: {
+            args: {
+              orderBy: {
+                type: CharacterOrder,
+                defaultValue: { field: 'title', direction: 'ASC' },
+              }
+            },
+            type: new GraphQLList(bookType),
+            resolve: async (_, { orderBy }, { supabase }) => {
+              console.log('Resolver called: Query.book');
+              // Our object fetched from our database
+              const query = supabase.from('Books')
               .select('*')
               .order(orderBy.field, { ascending: orderBy.direction === 'ASC' });
               const { data, error } = await query;
@@ -37,25 +82,20 @@ const queryType = new GraphQLObjectType({
               return data;
             },
           },
-          Book: {
-            type: new GraphQLList(bookType),
-            resolve: async (_, { orderBy }, { supabase }) => {
-              console.log('Resolver called: Query.book');
-              // Our object fetched from our database
-              const query = supabase.from('Books').select('*');
-              const { data, error } = await query;
-              if (error) {
-                console.error(error);
-              }
-              return data;
-            },
-          },
           Potion: {
+            args: {
+              orderBy: {
+                type: CharacterOrder,
+                defaultValue: { field: 'name', direction: 'ASC' },
+              }
+            },
             type: new GraphQLList(potionType),
             resolve: async (_, { orderBy }, { supabase }) => {
               console.log('Resolver called: Query.book');
               // Our object fetched from our database
-              const query = supabase.from('Potions').select('*');
+              const query = supabase.from('Potions')
+              .select('*')
+              .order(orderBy.field, { ascending: orderBy.direction === 'ASC' });
               const { data, error } = await query;
               if (error) {
                 console.error(error);
@@ -64,11 +104,26 @@ const queryType = new GraphQLObjectType({
             },
           },
           Spell: {
+            args: {
+              orderBy: {
+                type: CharacterOrder,
+                defaultValue: { field: 'name', direction: 'ASC' },
+              },
+              spell_type: {
+                type: GraphQLString,
+              }
+            },
             type: new GraphQLList(spellType),
-            resolve: async (_, { orderBy }, { supabase }) => {
+            resolve: async (_, { orderBy,spell_type }, { supabase }) => {
               console.log('Resolver called: Query.book');
               // Our object fetched from our database
-              const query = supabase.from('Spells').select('*');
+              const query = supabase.from('Spells')
+              .select('*')
+              .order(orderBy.field, { ascending: orderBy.direction === 'ASC' });
+
+              if (spell_type) {
+                query.filter('spell_type','eq',spell_type)
+              }
               const { data, error } = await query;
               if (error) {
                 console.error(error);
@@ -77,11 +132,18 @@ const queryType = new GraphQLObjectType({
             },
           },
           MagicObject: {
+            args: {
+              orderBy: {
+                type: CharacterOrder,
+                defaultValue: { field: 'name', direction: 'ASC' },
+              }
+            },
             type: new GraphQLList(magicObjectInterface),
             resolve: async (_, { orderBy }, { supabase }) => {
               const query = supabase
                 .from('MagicObjects')
-                .select('WandID(*),BroomID(*),PortKeyID(*)');
+                .select('WandID(*),BroomID(*),PortKeyID(*)')
+                .order(orderBy.field, { ascending: orderBy.direction === 'ASC' });
     
               const { data,error } = await query;
               
