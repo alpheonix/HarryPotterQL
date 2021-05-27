@@ -1,5 +1,5 @@
 import graphqlM from 'graphql';
-import wizardType from './types/Wizard.js'
+import characterype from './types/Character.js'
 
 
 const { GraphQLObjectType,GraphQLID, GraphQLList, GraphQLSchema,GraphQLString } = graphqlM;
@@ -10,7 +10,7 @@ const queryType = new GraphQLObjectType({
         wizards: {
             type: new GraphQLList(wizardType),
             resolve: async (_, { orderBy, gender }, { supabase }) => {
-              console.log('Resolver called: Query.strongestJedi');
+              console.log('Resolver called: Query.wizard');
               // Our object fetched from our database
               const query = supabase.from('Wizard').select('*');
               const { data, error } = await query;
