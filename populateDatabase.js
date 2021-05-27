@@ -1,5 +1,4 @@
 
-
   const characters = [
     {
     id: 1,
@@ -21280,11 +21279,7 @@
     await supabase.from('BookCovers').upsert(bookCovers);
     await supabase.from('Books').upsert(books);
     await supabase.from('Potions').upsert(potions);
-    const {data,error} = await supabase.from('Spells').upsert(spells);
-
-
-console.log(error);
-
+    await supabase.from('Spells').upsert(spells);
 
  
   console.log('Database populated !\n');

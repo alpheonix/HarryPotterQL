@@ -1,5 +1,7 @@
 import graphqlM from 'graphql';
-import characterype from './types/Character.js'
+import characterType from './types/Character.js'
+import bookType from './types/Book.js'
+
 
 
 const { GraphQLObjectType,GraphQLID, GraphQLList, GraphQLSchema,GraphQLString } = graphqlM;
@@ -7,12 +9,25 @@ const { GraphQLObjectType,GraphQLID, GraphQLList, GraphQLSchema,GraphQLString } 
 const queryType = new GraphQLObjectType({
     name: 'Query',
     fields: {
-        wizards: {
-            type: new GraphQLList(wizardType),
+        Character: {
+            type: new GraphQLList(characterType),
             resolve: async (_, { orderBy, gender }, { supabase }) => {
-              console.log('Resolver called: Query.wizard');
+              console.log('Resolver called: Query.character');
               // Our object fetched from our database
-              const query = supabase.from('Wizard').select('*');
+              const query = supabase.from('Characters').select('*');
+              const { data, error } = await query;
+              if (error) {
+                console.error(error);
+              }
+              return data;
+            },
+          },
+          Book: {
+            type: new GraphQLList(bookType),
+            resolve: async (_, { orderBy, gender }, { supabase }) => {
+              console.log('Resolver called: Query.book');
+              // Our object fetched from our database
+              const query = supabase.from('Books').select('*');
               const { data, error } = await query;
               if (error) {
                 console.error(error);
