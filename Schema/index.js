@@ -1,4 +1,4 @@
-import graphqlM from 'graphql';
+import graphqlM, { GraphQLNonNull } from 'graphql';
 import characterType from './types/Character.js'
 import bookType from './types/Book.js'
 import potionType from './types/Potion.js'
@@ -9,7 +9,6 @@ import portKeyType from './types/PortKey.js'
 import magicObjectInterface from './interface/MacigObject.js'
 import CharacterOrder from './input/CharacterOrder.js';
 import graphqlRelay from 'graphql-relay';
-import PotionInput from './input/PotionInput.js';
 const { mutationWithClientMutationId } = graphqlRelay;
 
 
@@ -163,8 +162,11 @@ const queryType = new GraphQLObjectType({
     name: 'AddPotion',
     description: 'Adds a potion to the Potions table',
     inputFields: {
-      info: {
-        type: PotionInput,
+      name: {
+        type: new GraphQLNonNull(GraphQLString),
+      },
+      description: {
+        type: new GraphQLNonNull(GraphQLString),
       },
     },
     outputFields: {
@@ -177,13 +179,16 @@ const queryType = new GraphQLObjectType({
         'Mutation.addPotion called with input: ' + JSON.stringify(input, null, 2)
       );
       const { name, description } = input;
+const {data:dataPot} = await supabase.from('Potions').select('id');
+        
       const query = supabase.from('Potions')
-        .create({name: name, description: description});
-        const { data, error } = await query;
+        .insert([{id:dataPot.length +1,name: name, description: description}]);
+        const {data,error} = await query;
         if (error) {
           console.error(error);
         }
-        return data;
+
+        return {potion:data[0]}
       },
   });  
 
