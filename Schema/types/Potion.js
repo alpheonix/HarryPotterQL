@@ -1,6 +1,6 @@
 import graphql from 'graphql';
 
-const { GraphQLObjectType, GraphQLList, GraphQLBoolean, GraphQLFloat, GraphQLInt, GraphQLID, GraphQLString } = graphql;
+const { GraphQLObjectType, GraphQLID, GraphQLString } = graphql;
 
 export default new GraphQLObjectType({
   name: 'Potion',

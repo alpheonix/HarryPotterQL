@@ -8,7 +8,9 @@ import broomType from './types/Broom.js'
 import portKeyType from './types/PortKey.js'
 import magicObjectInterface from './interface/MacigObject.js'
 import CharacterOrder from './input/CharacterOrder.js';
-
+import graphqlRelay from 'graphql-relay';
+import PotionInput from './input/PotionInput.js';
+const { mutationWithClientMutationId } = graphqlRelay;
 
 
 const { GraphQLObjectType,GraphQLID, GraphQLList, GraphQLSchema,GraphQLString } = graphqlM;
@@ -102,6 +104,7 @@ const queryType = new GraphQLObjectType({
               }
               return data;
             },
+            
           },
           Spell: {
             args: {
@@ -156,4 +159,39 @@ const queryType = new GraphQLObjectType({
     },
   });
   
-  export default new GraphQLSchema({ query: queryType, types:[wandType,broomType,portKeyType] });
+  const addPotionMutation = mutationWithClientMutationId({
+    name: 'AddPotion',
+    description: 'Adds a potion to the Potions table',
+    inputFields: {
+      info: {
+        type: PotionInput,
+      },
+    },
+    outputFields: {
+      potion: {
+        type: potionType,
+      },
+    },
+    mutateAndGetPayload: async (input, { supabase }) => {
+      console.log(
+        'Mutation.addPotion called with input: ' + JSON.stringify(input, null, 2)
+      );
+      const { name, description } = input;
+      const query = supabase.from('Potions')
+        .create({name: name, description: description});
+        const { data, error } = await query;
+        if (error) {
+          console.error(error);
+        }
+        return data;
+      },
+  });  
+
+  const mutationType = new GraphQLObjectType({
+    name: 'Mutation',
+    fields: {
+      addPotion: addPotionMutation,
+    },
+  });
+  
+  export default new GraphQLSchema({ query: queryType, mutation: mutationType, types:[wandType,broomType,portKeyType] });
