@@ -1,4 +1,4 @@
-import graphqlM, { GraphQLNonNull } from 'graphql';
+import graphqlM from 'graphql';
 import characterType from './types/Character.js'
 import bookType from './types/Book.js'
 import potionType from './types/Potion.js'
@@ -12,7 +12,7 @@ import graphqlRelay from 'graphql-relay';
 const { mutationWithClientMutationId } = graphqlRelay;
 
 
-const { GraphQLObjectType,GraphQLID, GraphQLList, GraphQLSchema,GraphQLString } = graphqlM;
+const { GraphQLObjectType,GraphQLID, GraphQLList, GraphQLSchema,GraphQLString, GraphQLNonNull } = graphqlM;
 
 const queryType = new GraphQLObjectType({
     name: 'Query',
@@ -147,12 +147,12 @@ const queryType = new GraphQLObjectType({
                 .select('WandID(*),BroomID(*),PortKeyID(*)')
                 .order(orderBy.field, { ascending: orderBy.direction === 'ASC' });
     
-              const { data,error } = await query;
+              const { data } = await query;
               
               console.log(data);
               
               
-              return data.map(o => o.WandID || o.BroomID || o.PortKeyID);;
+              return data.map(o => o.WandID || o.BroomID || o.PortKeyID);
             },
           },
     },
